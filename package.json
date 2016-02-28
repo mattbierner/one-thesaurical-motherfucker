@@ -1,13 +1,17 @@
 {
-    "name": "one-thesaurical-motherfucker",
-    "version": "0.0.0",
-    "private": true,
-    "author": "Matt Bierner",
-    "license": "MIT",
-    "keywords": [],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/mattbierner/one-thesaurical-motherfuncker.git"
-    },
-    "main": "server.js"
+  "name": "one-thesaurical-motherfucker",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Matt Bierner",
+  "license": "MIT",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattbierner/one-thesaurical-motherfuncker.git"
+  },
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4"
+  }
 }

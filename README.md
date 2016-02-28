@@ -87,11 +87,11 @@ See below for explanation of options.
 
 ### Options
 
-#### `mode'
+#### `'mode'`
 What translation method should be used. Choices are:
 
 - `'longest'` - Always choose the longest word.
 - `'random'` - Choose a random word.
 
-#### 'whole_words'
+#### `'whole_words'`
 Should only whole words be returned? 
