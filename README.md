@@ -3,7 +3,6 @@
 </div>
 
 
-
 ## Api
 You are free to use the Api, but don't be a jerk. I can't guarantee it's availability or uptime, so you are probably better off hosting the server yourself. Any simple Node host will do.
 

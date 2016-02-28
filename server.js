@@ -2,8 +2,9 @@
 const thesauric = require('./thesauric');
 const bodyParser = require('body-parser')
 const express = require('express');
+const process = require('process');
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const MAX_LENGTH = 10000;
 const MAX_TOKENS_LENGTH = 2000;
