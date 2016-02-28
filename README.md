@@ -3,6 +3,16 @@
 </div>
 
 
+## Running
+Server code is stored in the master branch. Site code is on the [`gh-pages` brach](tree/gh-pages).
+
+To run the server:
+
+```bash
+$ npm install
+$ node server.js
+```
+
 ## Api
 You are free to use the Api, but don't be a jerk. I can't guarantee it's availability or uptime, so you are probably better off hosting the server yourself. Any simple Node host will do.
 
