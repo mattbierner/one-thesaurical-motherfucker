@@ -40,7 +40,6 @@ const shuffle = (arr) => {
 
 const getSynonyms = (search, word) => {
     const lookups = search(word)
-    //.filter(x => x.match(/^(\w[\w'-]*\w)$/))
     lookups.push(word);
     return lookups
         .filter((word, pos, arr) => arr.indexOf(word) === pos);
@@ -63,10 +62,19 @@ const synonymResponse = (token, synonym) => {
     const id = token.id;
     if (typeof id === 'number' || typeof id === 'string')
         response.id = id;
-    if (synonym)
+    if (synonym && synonym != token.token)
         response.synonym = synonym;
     return response;
 };
+
+/**
+ * Filter the source to only include whole words.
+ */
+const wholeWordsOnly = source =>
+    word => {
+        const results = source(word).filter(x => x.match(/^(\w[\w'-]*\w)$/));
+        return results.length ? results : [word];
+    };
 
 /**
  * Select the longest `synonym`.
@@ -77,17 +85,21 @@ const selectLongest = module.exports.selectLongest = choices =>
 /**
  * Select a random `synonym`.
  */
-const selectRandom = choices =>
+const selectRandom = module.exports.selectRandom = choices =>
     shuffle(choices)[0];
 
 /**
  * 
  */
-const thesurusizeTokens = module.exports.tokens = (tokens, search, selector) => {
-    search = search || mobyLookup;
-    selector = selector || selectLongest;
+const thesurusizeTokens = module.exports.tokens = (tokens, selector, options) => {
+   let search = mobyLookup;
+    
+    if (options && options['whole_words']) {
+        search = wholeWordsOnly(search);
+    }
     
     tokens = tokens
+        .map(x => x && typeof x === 'string' ? { token: x } : x)
         .filter(x => x && typeof x.token === 'string' && x.token.length)
     
     const tokenValues = tokens.map(x => x.token);
@@ -118,9 +130,9 @@ const thesurusizeTokens = module.exports.tokens = (tokens, search, selector) => 
 /**
  * 
  */
-const thesurusizeText = module.exports.text = (text, search, selector) => {
-    const tokens = text.split(WORD_RE).filter(x => x.length).map(word => ({ token: word }));
-    return thesurusizeTokens(tokens, search, selector)
+const thesurusizeText = module.exports.text = (text, selector, options) => {
+    const tokens = text.split(WORD_RE).filter(x => x.length);
+    return thesurusizeTokens(tokens, selector, options)
         .then(result => result.map(x => x.synonym || x.token).join(''));
 };
 
