@@ -1,0 +1,160 @@
+/**
+ * Site header
+ */
+.site-header {
+    padding: 5em 0 2em 0;
+    text-align: center;
+    
+    #glasses {
+        top: -150px;
+        left: 66px;
+        position: absolute;
+        animation: jackson 0.4s ease-out 0.8s;
+        animation-fill-mode: forwards;
+        transform: rotate(-3deg);
+    }
+    
+    #melville-wrap {
+        margin: 0 auto;
+        position: relative;
+        max-width: 260px;
+        max-height: 260px;
+    }
+    
+    #melville {
+        border-radius: 100%;
+        max-width: 260px;
+        max-height: 260px;
+    }
+    
+    #site-title {
+        padding-top: 0.6em;
+        display: block;
+        margin: 0 auto;
+        width: 280px;
+    }
+}
+
+#description {
+    text-align: center;
+    max-width: 500px;
+    margin-bottom: 3.4em;
+
+    p {
+        margin: 0.1em;
+    }
+}
+
+#pre-text-choices {
+    text-align: center;
+    margin-bottom: 1em;
+    font-family: serif;
+}
+
+#input-container {
+    margin-bottom: 2rem;
+    
+    #input {
+        display: block;
+        min-height: 200px;
+        width: 100%;
+        resize: none;
+        border: 1px solid #ddd;
+        margin: 0.2em;
+    }
+    
+    header select {
+        float: right;
+    }
+}
+
+#ouput-container {
+    max-width: 1200px;
+    
+    .tokens {
+        white-space: pre-wrap;
+        font-family: inherit;
+        font-size: 1em;
+        background: none;
+        min-height: 10em;
+        padding-bottom: 2em;
+    }
+}
+
+.result-header {
+    h1, h2 {
+        text-align: center;
+        font-weight: 300;
+    }
+    
+    .length {
+        font-size: 1em;
+    }
+    .length:after {
+        content: " characters";
+    }
+}
+
+.token {
+    position: relative;
+    
+    .source {
+        z-index: 999;
+        position: absolute;
+        top: 1.2em;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        .text {
+            padding: 4px;
+            font-style: italic;
+        }
+    }
+}
+
+.token.active {
+    background: #eee;
+}
+
+#submit-group {
+    text-align: right;
+    & > * {
+        margin-left: 3em;
+    }
+    
+    & > *:first-child {
+        margin-left: 0;
+    }
+}
+
+.wrapper-footer {
+    margin-top: 50px;
+
+}
+
+.page-footer {
+    padding: 20px 0;
+    text-align: center;
+    color: #aaa;
+    
+    p {
+        font-size: 80%;
+    }
+}
+
+.footer-links {
+    margin-bottom: 1em;
+    
+    a {
+        display: block;
+    }
+}
+
+@keyframes jackson {
+    from {
+        top: -150px;
+    }
+    to {
+        top: 86px;
+    }
+}
