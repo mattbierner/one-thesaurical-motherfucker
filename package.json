@@ -11,7 +11,13 @@
   },
   "main": "server.js",
   "dependencies": {
+    "async": "^1.5.2",
     "body-parser": "^1.15.0",
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "lodash": "^4.5.1",
+    "map-case": "0.0.0",
+    "moby": "^1.1.1",
+    "natural": "^0.2.1",
+    "pos": "^0.3.0"
   }
 }

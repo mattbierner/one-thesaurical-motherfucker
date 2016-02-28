@@ -1,12 +1,9 @@
 "use strict";
 
-const natural = require('natural');
 const async = require('async');
 const pos = require('pos');
 const mapCase = require('map-case');
-const walker = require('walker-sample');
 const moby = require('moby');
-const tonsole = require('tonsole');
 const _ = require('lodash');
 
 const WORD_RE = /(\w[\w'-]*\w)/g;
