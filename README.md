@@ -15,7 +15,7 @@ This program takes some text and uses a thesaurus to lookup the longest synonym 
 
 
 ## Running
-Server code is stored in the master branch. Site code is on the [`gh-pages` brach](tree/gh-pages).
+Server code is stored in the master branch. Site code is on the [`gh-pages` brach](https://github.com/mattbierner/one-thesaurical-motherfucker/tree/gh-pages).
 
 To run the server:
 
