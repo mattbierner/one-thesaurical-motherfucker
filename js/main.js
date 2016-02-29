@@ -202,7 +202,7 @@
 	                    onMouseEnter: this.onMouseEnter.bind(this),
 	                    onMouseLeave: this.onMouseLeave.bind(this) },
 	                word,
-	                ' ',
+	                '​',
 	                _react2.default.createElement(
 	                    'div',
 	                    { style: { display: this.state.active ? 'inherit' : 'none' }, className: 'source' },
