@@ -102,7 +102,7 @@ class Token extends React.Component {
                 className={`token token-${id}`}
                 style={style}
                 onMouseEnter={this.onMouseEnter.bind(this)}
-                onMouseLeave={this.onMouseLeave.bind(this)}>{word}&#8203;<div style={{ display: this.state.active ? 'inherit' : 'none' }}className="source"><span className="text" style={style}>{token.token}</span></div></span>
+                onMouseLeave={this.onMouseLeave.bind(this)}>{word}<div style={{ display: this.state.active ? 'inherit' : 'none' }}className="source">&#8203;<span className="text" style={style}>{token.token}</span></div></span>
         );
     }
 }
