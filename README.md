@@ -13,6 +13,7 @@ This program takes some text and uses a thesaurus to lookup the longest synonym 
 **Output** - 516 characters
 > Compulsory military service me Unacceptable person. Some years ago—never collective unconscious how de longue haleine precisely—having small indefinite quantity or no unregistered bank account in my unregistered bank account , and matter of indifference classificational to mental acquisitiveness me on geological formation , I higher cognitive process I would present no difficulties about a small indefinite quantity and have information about the infirm of purpose supporting character of the steady-state universe .
 
+[See this post for more examples](http://blog.mattbierner.com/one-thesaurical-motherfucker/).
 
 ## Running
 Server code is stored in the master branch. Site code is on the [`gh-pages` brach](https://github.com/mattbierner/one-thesaurical-motherfucker/tree/gh-pages).
