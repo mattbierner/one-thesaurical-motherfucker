@@ -182,13 +182,10 @@
 	        key: 'render',
 	        value: function render() {
 	            var token = this.props.token;
-	            var id = token.id;
-	            var word = token.synonym || token.token;
-
 	            if (!token.synonym) return _react2.default.createElement(
 	                'span',
-	                { 'data-id': id, className: 'token token-' + id },
-	                word
+	                { className: 'token' },
+	                token.token
 	            );
 
 	            var style = {
@@ -196,16 +193,15 @@
 	            };
 	            return _react2.default.createElement(
 	                'span',
-	                { 'data-id': id,
-	                    className: 'token token-' + id,
+	                { className: 'token',
 	                    style: style,
 	                    onMouseEnter: this.onMouseEnter.bind(this),
 	                    onMouseLeave: this.onMouseLeave.bind(this) },
-	                word,
-	                '​',
+	                token.synonym,
 	                _react2.default.createElement(
 	                    'div',
 	                    { style: { display: this.state.active ? 'inherit' : 'none' }, className: 'source' },
+	                    '​',
 	                    _react2.default.createElement(
 	                        'span',
 	                        { className: 'text', style: style },

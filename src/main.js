@@ -88,21 +88,17 @@ class Token extends React.Component {
     
     render() {
         const token = this.props.token;
-        const id = token.id;
-        const word = token.synonym || token.token;
-        
         if (!token.synonym)
-            return <span data-id={id} className={`token token-${id}`}>{word}</span>;
+            return <span className="token">{token.token}</span>;
         
         const style = {
             backgroundColor: this.getColor(token)
         };
         return (
-            <span data-id={id}
-                className={`token token-${id}`}
+            <span className="token"
                 style={style}
                 onMouseEnter={this.onMouseEnter.bind(this)}
-                onMouseLeave={this.onMouseLeave.bind(this)}>{word}<div style={{ display: this.state.active ? 'inherit' : 'none' }}className="source">&#8203;<span className="text" style={style}>{token.token}</span></div></span>
+                onMouseLeave={this.onMouseLeave.bind(this)}>{token.synonym}<div style={{ display: this.state.active ? 'inherit' : 'none' }} className="source">&#8203;<span className="text" style={style}>{token.token}</span></div></span>
         );
     }
 }
