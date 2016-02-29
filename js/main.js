@@ -260,8 +260,18 @@
 	            var _this3 = this;
 
 	            translateTextInput(text, mode, whole).then(function (tokens) {
-	                _this3.setState({ output: tokens, outputCache: _this3.getOuputData(tokens) });
-	            }).catch(console.error);
+	                _this3.setState({
+	                    output: tokens,
+	                    outputCache: _this3.getOuputData(tokens),
+	                    error: null
+	                });
+	            }).catch(function (error) {
+	                _this3.setState({
+	                    output: '',
+	                    outputCache: _this3.getOuputData([]),
+	                    error: error
+	                });
+	            });
 	        }
 	    }, {
 	        key: 'onSubmit',
@@ -333,6 +343,21 @@
 	                    _this4.props.modes[title]
 	                );
 	            });
+
+	            var outputElement = undefined;
+	            if (this.state.error) {
+	                outputElement = _react2.default.createElement(
+	                    'p',
+	                    { style: { color: 'red' } },
+	                    this.state.error
+	                );
+	            } else {
+	                outputElement = _react2.default.createElement(
+	                    'pre',
+	                    { className: 'tokens' },
+	                    output.nodes
+	                );
+	            }
 
 	            return _react2.default.createElement(
 	                'div',
@@ -408,11 +433,7 @@
 	                                    output.length
 	                                )
 	                            ),
-	                            _react2.default.createElement(
-	                                'pre',
-	                                { className: 'tokens' },
-	                                output.nodes
-	                            )
+	                            outputElement
 	                        )
 	                    )
 	                )

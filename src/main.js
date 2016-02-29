@@ -135,9 +135,19 @@ class Site extends React.Component {
     translate(text, mode, whole) {
         translateTextInput(text, mode, whole)
             .then(tokens => {
-                this.setState({ output: tokens, outputCache: this.getOuputData(tokens) });
+                this.setState({
+                    output: tokens,
+                    outputCache: this.getOuputData(tokens),
+                    error: null
+                });
             })
-            .catch(console.error);
+            .catch(error => {
+                this.setState({
+                    output: '',
+                    outputCache: this.getOuputData([]),
+                    error: error
+                });
+            });
     }
     
     onSubmit() {
@@ -193,6 +203,13 @@ class Site extends React.Component {
             <option key={title} value={title}>{this.props.modes[title]}</option>
         ));
         
+        let outputElement;
+        if (this.state.error) {
+            outputElement = <p style={{color: 'red' }}>{this.state.error}</p>;
+        } else {
+            outputElement = <pre className="tokens">{output.nodes}</pre>;
+        }
+        
         return (<div>
             <div id="pre-text-choices" >
                 <select onChange={this.onSelect.bind(this)}>{choices}</select>
@@ -218,7 +235,7 @@ class Site extends React.Component {
                             <h1>Output</h1>
                             <h2 className="length">{output.length}</h2>
                         </header>
-                        <pre className="tokens">{output.nodes}</pre>
+                        {outputElement}
                     </div>
                 </div>
             </div>
