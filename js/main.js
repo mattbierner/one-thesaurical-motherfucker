@@ -94,7 +94,7 @@
 	};
 
 	/**
-	 * 
+	 * Translate tome text.
 	 */
 	var translate = function translate(tokens, mode, whole) {
 	    return new Promise(function (resolve, reject) {
@@ -140,7 +140,7 @@
 	};
 
 	/**
-	 * 
+	 * A single token.
 	 */
 
 	var Token = function (_React$Component) {
@@ -270,7 +270,7 @@
 	    }, {
 	        key: 'onSubmit',
 	        value: function onSubmit() {
-	            this.translate(this.state.input, this.state.mode);
+	            this.translate(this.state.input, this.state.mode, this.state.whole);
 	        }
 	    }, {
 	        key: 'onInputChange',

@@ -14,7 +14,7 @@ const MODES = {
 };
 
 /**
- * 
+ * Translate tome text.
  */
 const translate = (tokens, mode, whole) =>
     new Promise((resolve, reject) =>
@@ -57,7 +57,7 @@ const resizeTextArea = () =>
     });
 
 /**
- * 
+ * A single token.
  */
 class Token extends React.Component {
     constructor() {
@@ -145,7 +145,7 @@ class Site extends React.Component {
     }
     
     onSubmit() {
-        this.translate(this.state.input, this.state.mode);
+        this.translate(this.state.input, this.state.mode, this.state.whole);
     }
     
     onInputChange(e) {
