@@ -2,6 +2,17 @@
     <img src="https://raw.githubusercontent.com/mattbierner/one-thesaurical-motherfucker/master/documentation/logo.png" alt="One Thesaurical Motherfucker" />
 </div>
 
+Thesaurus your text automatically. Now you too can be one thesaurical motherfucker, just like Herman Melville, that most thesaurical of all thesaurical motherfuckers.
+
+## What?
+This program takes some text and uses a thesaurus to lookup the longest synonym for each word, ignoring details such as part of speech or context. Here's an example:
+
+**Input** - 224 characters
+> Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.
+
+**Output** - 516 characters
+> Compulsory military service me Unacceptable person. Some years ago—never collective unconscious how de longue haleine precisely—having small indefinite quantity or no unregistered bank account in my unregistered bank account , and matter of indifference classificational to mental acquisitiveness me on geological formation , I higher cognitive process I would present no difficulties about a small indefinite quantity and have information about the infirm of purpose supporting character of the steady-state universe .
+
 
 ## Running
 Server code is stored in the master branch. Site code is on the [`gh-pages` brach](tree/gh-pages).
