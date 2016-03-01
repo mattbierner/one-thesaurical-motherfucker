@@ -25,7 +25,6 @@ const goodTags = [
 const isUppercase = x =>
     x && x[0].toUpperCase() === x[0] && x[0].toUpperCase() !== x[0].toLowerCase();
 
-
 const mobyLookup = word =>
     moby.search(word);
 
@@ -47,7 +46,7 @@ const getSynonyms = (search, word) => {
 };
 
 const thesurusizeWord = (search, word, selector) => {
-    const lookups = getSynonyms(search, word);
+    const lookups = getSynonyms(search, word.toLowerCase());
     let pick = selector(lookups);
     pick = mapCase.upper(word, pick);
     return pick;
@@ -89,6 +88,15 @@ const noProperNouns = source =>
     };
 
 /**
+ * Filter the source to exclude proper nouns.
+ */
+const filterOutAcronyms = source =>
+    word => {
+        const results = source(word).filter(x => ![].every.call(x, isUppercase));
+        return results.length ? results : [word];
+    };
+
+/**
  * Select the longest `synonym`.
  */
 const selectLongest = module.exports.selectLongest = choices =>
@@ -110,7 +118,7 @@ const selectRandom = module.exports.selectRandom = choices =>
  * 
  */
 const thesurusizeTokens = module.exports.tokens = (tokens, selector, options) => {
-   let search = mobyLookup;
+   let search = filterOutAcronyms(mobyLookup);
     
     if (options && options['whole_words']) {
         search = wholeWordsOnly(search);
