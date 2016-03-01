@@ -5,6 +5,7 @@ const pos = require('pos');
 const mapCase = require('map-case');
 const moby = require('moby');
 const _ = require('lodash');
+const natural = require('natural');
 
 const WORD_RE = /(\w[\w'-]*\w)/g;
 
@@ -21,6 +22,8 @@ const goodTags = [
     'VBP', // verb present
     'VBZ', // verb present
 ];
+
+const nounInflector = new natural.NounInflector();
 
 const isUppercase = x =>
     x && x[0].toUpperCase() === x[0] && x[0].toUpperCase() !== x[0].toLowerCase();
@@ -45,10 +48,20 @@ const getSynonyms = (search, word) => {
         .filter((word, pos, arr) => arr.indexOf(word) === pos);
 };
 
-const thesurusizeWord = (search, word, selector) => {
-    const lookups = getSynonyms(search, word.toLowerCase());
+const thesurusizeWord = (search, word, tag, selector) => {
+    let normalizedWord = word.toLowerCase();
+    let didSingularize = false;
+    if (tag === 'NNS') {
+        const singular = nounInflector.singularize(normalizedWord);
+        didSingularize = singular !== normalizedWord;
+        normalizedWord = singular;
+    }
+    const lookups = getSynonyms(search, normalizedWord);
     let pick = selector(lookups);
     pick = mapCase.upper(word, pick);
+    
+    if (didSingularize)
+        return nounInflector.pluralize(pick);
     return pick;
 };
 
@@ -148,7 +161,7 @@ const thesurusizeTokens = module.exports.tokens = (tokens, selector, options) =>
             if (!word.match(WORD_RE) || goodTags.indexOf(tag) === -1)
                 return callback(null, synonymResponse(token, null));
 
-            let newWord = thesurusizeWord(search, word, selector);
+            let newWord = thesurusizeWord(search, word, tag, selector);
             return callback(null, synonymResponse(token, newWord));
         }, (err, results) => {
             if (err)
