@@ -111,7 +111,7 @@ See below for explanation of options.
 #### `'mode'`
 What translation method should be used. Choices are:
 
-- `'longest'` - Always choose the longest word.
+- `'longest'`** - Always choose the longest word.
 - `'random'` - Choose a random word.
 - `'shortest'` - Always choose the shortest word.
  
