@@ -22,6 +22,10 @@ const goodTags = [
     'VBZ', // verb present
 ];
 
+const isUppercase = x =>
+    x && x[0].toUpperCase() === x[0] && x[0].toUpperCase() !== x[0].toLowerCase();
+
+
 const mobyLookup = word =>
     moby.search(word);
 
@@ -74,10 +78,27 @@ const wholeWordsOnly = source =>
     };
 
 /**
+ * Filter the source to exclude proper nouns.
+ */
+const noProperNouns = source =>
+    word => {
+        const results = source(word).filter(x => {
+            return !(isUppercase(x[0]) && !isUppercase(x[1]));
+        });
+        return results.length ? results : [word];
+    };
+
+/**
  * Select the longest `synonym`.
  */
 const selectLongest = module.exports.selectLongest = choices =>
     choices.reduce((longest, word) => word.length > longest.length ? word : longest);
+
+/**
+ * Select the shortest `synonym`.
+ */
+const selectShortest = module.exports.selectShortest = choices =>
+    choices.reduce((shortest, word) => word.length < shortest.length ? word : shortest);
 
 /**
  * Select a random `synonym`.
@@ -93,6 +114,10 @@ const thesurusizeTokens = module.exports.tokens = (tokens, selector, options) =>
     
     if (options && options['whole_words']) {
         search = wholeWordsOnly(search);
+    }
+    
+    if (options && options['no_proper_nouns']) {
+        search = noProperNouns(search);
     }
     
     tokens = tokens

@@ -13,7 +13,8 @@ const DEFAULT_MODE = 'longest';
 
 const MODES = {
     longest: thesauric.selectLongest,
-    random: thesauric.selectRandom
+    random: thesauric.selectRandom,
+    shortest: thesauric.selectShortest
 };
 
 var app = express();

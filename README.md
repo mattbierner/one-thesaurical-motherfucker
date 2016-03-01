@@ -113,6 +113,12 @@ What translation method should be used. Choices are:
 
 - `'longest'` - Always choose the longest word.
 - `'random'` - Choose a random word.
-
+- `'shortest'` - Always choose the shortest word.
+ 
+Default is `'longest'`.
+ 
 #### `'whole_words'`
-Should only whole words be returned? 
+Should only whole words be returned? Default value is false.
+
+#### `'no_proper_nouns'`
+Should we we try to filter out proper names (those that are capitilized)? Default value is false.
