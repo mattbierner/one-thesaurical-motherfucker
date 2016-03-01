@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import * as chroma from 'chroma-js';
 
-const API = "http://localhost:3000/api/tokens";//"http://one-thesaurical-motherfucker.azurewebsites.net/api/tokens";
+const API = "http://one-thesaurical-motherfucker.azurewebsites.net/api/tokens";
 const WORD_RE = /(\w[\w'-]*\w)/g;
 
 const MODES = {
