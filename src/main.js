@@ -5,18 +5,19 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import * as chroma from 'chroma-js';
 
-const API = "http://one-thesaurical-motherfucker.azurewebsites.net/api/tokens";
+const API = "http://localhost:3000/api/tokens";//"http://one-thesaurical-motherfucker.azurewebsites.net/api/tokens";
 const WORD_RE = /(\w[\w'-]*\w)/g;
 
 const MODES = {
     'longest': 'Longest word',
-    'random': 'Random word'
+    'random': 'Random word',
+    'shortest': 'Shortest word'
 };
 
 /**
  * Translate tome text.
  */
-const translate = (tokens, mode, whole) =>
+const translate = (tokens, mode, whole, proper) =>
     new Promise((resolve, reject) =>
         $.ajax({
             type: "POST",
@@ -25,9 +26,11 @@ const translate = (tokens, mode, whole) =>
             data: JSON.stringify({
                 tokens: tokens,
                 mode: mode,
-                whole_words: whole
+                whole_words: whole,
+                no_proper_nouns: !proper
             }),
-            dataType: 'json'
+            dataType: 'json',
+            error: () => reject('Error connecting to server')
         }).then(resolve, reject));
 
 /**
@@ -41,9 +44,9 @@ const tokenize = text => {
     }));
 };
 
-const translateTextInput = (text, mode, whole) => {
+const translateTextInput = (text, mode, whole, proper) => {
     const tokens = tokenize(text);
-    return translate(tokens, mode, whole)
+    return translate(tokens, mode, whole, proper)
         .then(result => {
             if (result.error)
                 throw result.error;
@@ -112,6 +115,8 @@ class Site extends React.Component {
         this.state = {
             input: '',
             output: [],
+            proper: true,
+            whole: false,
             outputCache: { nodes: undefined, length: 0 }
         };
     }
@@ -132,8 +137,8 @@ class Site extends React.Component {
         resizeTextArea();
     }
     
-    translate(text, mode, whole) {
-        translateTextInput(text, mode, whole)
+    translate(text, mode, whole, proper) {
+        translateTextInput(text, mode, whole, proper)
             .then(tokens => {
                 this.setState({
                     output: tokens,
@@ -151,7 +156,7 @@ class Site extends React.Component {
     }
     
     onSubmit() {
-        this.translate(this.state.input, this.state.mode, this.state.whole);
+        this.translate(this.state.input, this.state.mode, this.state.whole, this.state.proper);
     }
     
     onInputChange(e) {
@@ -168,18 +173,24 @@ class Site extends React.Component {
             return;
         text = text.replace(/\\n/g, '\n');
         this.setState({ input: text });
-        this.translate(text, this.state.mode, this.state.whole);
+        this.translate(text, this.state.mode, this.state.whole, this.state.proper);
     }
     
     onModeChange(e) {
         this.setState({ mode: e.target.value });
-        this.translate(this.state.input, e.target.value, this.state.whole);
+        this.translate(this.state.input, e.target.value, this.state.whole, this.state.proper);
     }
     
     onWholeChange(e) {
         const on = e.target.checked;
         this.setState({ whole: on });
-        this.translate(this.state.input, this.state.mode, on);
+        this.translate(this.state.input, this.state.mode, on, this.state.proper);
+    }
+    
+    onProperChange(e) {
+        const on = e.target.checked;
+        this.setState({ proper: on });
+        this.translate(this.state.input, this.state.mode, this.state.whole, on);
     }
     
     getOuputData(tokens) {
@@ -225,7 +236,8 @@ class Site extends React.Component {
                         <textarea id="input" onChange={this.onInputChange.bind(this)} value={this.state.input} />
                         
                         <div id="submit-group">
-                            <span>Whole words: <input type="checkbox" onChange={this.onWholeChange.bind(this)} /></span>
+                            <span>Proper Nouns: <input type="checkbox" checked={this.state.proper} onChange={this.onProperChange.bind(this)} /></span>
+                            <span>Whole words: <input type="checkbox" checked={this.state.whole} onChange={this.onWholeChange.bind(this)} /></span>
                             <select onChange={this.onModeChange.bind(this)}>{modeOptions}</select>
                             <button onClick={this.onSubmit.bind(this)}>Submit</button>
                         </div>

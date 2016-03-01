@@ -85,18 +85,19 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var API = "http://one-thesaurical-motherfucker.azurewebsites.net/api/tokens";
+	var API = "http://localhost:3000/api/tokens"; //"http://one-thesaurical-motherfucker.azurewebsites.net/api/tokens";
 	var WORD_RE = /(\w[\w'-]*\w)/g;
 
 	var MODES = {
 	    'longest': 'Longest word',
-	    'random': 'Random word'
+	    'random': 'Random word',
+	    'shortest': 'Shortest word'
 	};
 
 	/**
 	 * Translate tome text.
 	 */
-	var translate = function translate(tokens, mode, whole) {
+	var translate = function translate(tokens, mode, whole, proper) {
 	    return new Promise(function (resolve, reject) {
 	        return _jquery2.default.ajax({
 	            type: "POST",
@@ -105,9 +106,13 @@
 	            data: JSON.stringify({
 	                tokens: tokens,
 	                mode: mode,
-	                whole_words: whole
+	                whole_words: whole,
+	                no_proper_nouns: !proper
 	            }),
-	            dataType: 'json'
+	            dataType: 'json',
+	            error: function error() {
+	                return reject('Error connecting to server');
+	            }
 	        }).then(resolve, reject);
 	    });
 	};
@@ -125,9 +130,9 @@
 	    });
 	};
 
-	var translateTextInput = function translateTextInput(text, mode, whole) {
+	var translateTextInput = function translateTextInput(text, mode, whole, proper) {
 	    var tokens = tokenize(text);
-	    return translate(tokens, mode, whole).then(function (result) {
+	    return translate(tokens, mode, whole, proper).then(function (result) {
 	        if (result.error) throw result.error;
 	        return result.tokens;
 	    });
@@ -231,6 +236,8 @@
 	        _this2.state = {
 	            input: '',
 	            output: [],
+	            proper: true,
+	            whole: false,
 	            outputCache: { nodes: undefined, length: 0 }
 	        };
 	        return _this2;
@@ -256,10 +263,10 @@
 	        }
 	    }, {
 	        key: 'translate',
-	        value: function translate(text, mode, whole) {
+	        value: function translate(text, mode, whole, proper) {
 	            var _this3 = this;
 
-	            translateTextInput(text, mode, whole).then(function (tokens) {
+	            translateTextInput(text, mode, whole, proper).then(function (tokens) {
 	                _this3.setState({
 	                    output: tokens,
 	                    outputCache: _this3.getOuputData(tokens),
@@ -276,7 +283,7 @@
 	    }, {
 	        key: 'onSubmit',
 	        value: function onSubmit() {
-	            this.translate(this.state.input, this.state.mode, this.state.whole);
+	            this.translate(this.state.input, this.state.mode, this.state.whole, this.state.proper);
 	        }
 	    }, {
 	        key: 'onInputChange',
@@ -295,20 +302,27 @@
 	            if (!text) return;
 	            text = text.replace(/\\n/g, '\n');
 	            this.setState({ input: text });
-	            this.translate(text, this.state.mode, this.state.whole);
+	            this.translate(text, this.state.mode, this.state.whole, this.state.proper);
 	        }
 	    }, {
 	        key: 'onModeChange',
 	        value: function onModeChange(e) {
 	            this.setState({ mode: e.target.value });
-	            this.translate(this.state.input, e.target.value, this.state.whole);
+	            this.translate(this.state.input, e.target.value, this.state.whole, this.state.proper);
 	        }
 	    }, {
 	        key: 'onWholeChange',
 	        value: function onWholeChange(e) {
 	            var on = e.target.checked;
 	            this.setState({ whole: on });
-	            this.translate(this.state.input, this.state.mode, on);
+	            this.translate(this.state.input, this.state.mode, on, this.state.proper);
+	        }
+	    }, {
+	        key: 'onProperChange',
+	        value: function onProperChange(e) {
+	            var on = e.target.checked;
+	            this.setState({ proper: on });
+	            this.translate(this.state.input, this.state.mode, this.state.whole, on);
 	        }
 	    }, {
 	        key: 'getOuputData',
@@ -401,8 +415,14 @@
 	                                _react2.default.createElement(
 	                                    'span',
 	                                    null,
+	                                    'Proper Nouns: ',
+	                                    _react2.default.createElement('input', { type: 'checkbox', checked: this.state.proper, onChange: this.onProperChange.bind(this) })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    null,
 	                                    'Whole words: ',
-	                                    _react2.default.createElement('input', { type: 'checkbox', onChange: this.onWholeChange.bind(this) })
+	                                    _react2.default.createElement('input', { type: 'checkbox', checked: this.state.whole, onChange: this.onWholeChange.bind(this) })
 	                                ),
 	                                _react2.default.createElement(
 	                                    'select',
