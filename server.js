@@ -17,7 +17,7 @@ const MODES = {
 };
 
 var app = express();
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '2mb' }));
 
 app.all('/*', (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -93,5 +93,5 @@ app.post('/api/tokens', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log('Example app listening on port ' + PORT);
+    console.log('One thesaurical motherfucker electronic surveillance on cast of countenance: ' + PORT);
 });
